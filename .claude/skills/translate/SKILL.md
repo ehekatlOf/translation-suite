@@ -1,6 +1,6 @@
 ---
 name: translate
-description: Start or resume the autonomous translation loop as the runner — preflight, survey, first glossary seed, open the first wave session, keep the watchdog armed, and stop with a handoff when nothing dispatchable remains. Game-agnostic; every project value comes from PROJECT.md.
+description: Start or resume the autonomous translation loop as the runner — on first use, set the project up with the human (the setup skill), then preflight, survey, first glossary seed, open the first wave session, keep the watchdog armed, and stop with a handoff when nothing dispatchable remains. Game-agnostic; every project value comes from PROJECT.md.
 model: opus
 effort: max
 disable-model-invocation: true
@@ -18,9 +18,13 @@ wave size; a unit list → exactly those units, in that order).
 1. `git fetch origin main && git checkout main && git reset --hard origin/main`. Run CHECK
    (PROJECT.md §3); it must end "All checks passed". If not, `main` is broken: find the breaking
    commit, revert it, push, record it in HANDOFF, then continue.
-2. `grep -n '«FILL»' PROJECT.md` must print nothing. If it does, **stop and report which fields**:
-   a run on an incomplete project block produces unreviewable work. This is the one stop that
-   precedes CLAUDE.md §8's four.
+2. `grep -n '«FILL»' PROJECT.md`. If anything prints, setup has not finished: follow
+   `.claude/skills/setup/SKILL.md` to its end. It surveys the repo and dumps, asks the human in one
+   batch only what the repo cannot tell you, writes `PROJECT.md` and shows it before committing,
+   conforms the tools to `tools/README.md`, calibrates the tiers on one unit translated and reviewed
+   through the real roles, and ends by asking the human for the go-ahead. **Stop at that question.**
+   Continue here only on a yes. Never fill a `«FILL»` by guessing, and never ask the human to edit
+   the file themselves.
 3. Read `HANDOFF.md`. List open PRs (`gh pr list --state open` if PROJECT.md §9 says `gh` exists,
    else the GitHub MCP `list_pull_requests` with §1's owner/repo). Reconcile: a PR HANDOFF does not
    know → add it to In flight and queue it for review; an In flight row with no branch on `origin` →

@@ -11,9 +11,11 @@ then read **all** of `translation_prompt.md` and **all** of `glossary.md`, and g
 their unit's terms. Nothing else is mandatory reading; everything else is grepped on demand.
 
 Wherever this file says CHECK, MERGE, MEASURE, "the unit file pattern", "the owner/repo" or any
-other abstract name, the concrete value is in the `PROJECT.md` section named beside it. A `«FILL»`
-still present in `PROJECT.md` is a stop condition for the run: the runner's preflight refuses to
-start while any remain.
+other abstract name, the concrete value is in the `PROJECT.md` section named beside it. **Nobody
+fills `PROJECT.md` by hand.** A `«FILL»` still present in it means setup has not run: the runner's
+preflight hands over to `.claude/skills/setup/SKILL.md`, which surveys the repo, asks the human only
+what the repo cannot tell it, writes the block with the human's confirmation, conforms the tools,
+calibrates on one reviewed unit, and asks for a go-ahead before the unattended loop starts.
 
 ---
 
@@ -142,7 +144,7 @@ frontmatter). Start the loop with `/translate` in the main session.
 
 | Role | Runs as | Does | Never does |
 |---|---|---|---|
-| **Runner** | the session that starts the run — `.claude/skills/translate/SKILL.md` | preflight, survey, first glossary seed, open the **first** wave session, keep the watchdog armed, reopen a wave only if the chain breaks | translate, review, merge, touch the repo while a coordinator is alive |
+| **Runner** | the session that starts the run — `.claude/skills/translate/SKILL.md` | setup on first use (`.claude/skills/setup/SKILL.md`, attended, confirms with the human), preflight, survey, first glossary seed, open the **first** wave session, keep the watchdog armed, reopen a wave only if the chain breaks | translate, review, merge, touch the repo while a coordinator is alive |
 | **Coordinator** | **its own session**, one wave each — `.claude/agents/orchestrator.md` | one wave: seeds, dispatch, review routing, rework, wave close, HANDOFF — then opens the next wave's session | translate, merge, edit `tl/`, run a second wave, end without opening its successor |
 | **Translator** | subagent `translator`, own worktree, several in parallel | one unit → one branch → one PR | touch other files, merge, edit HANDOFF / glossary / rulings / FLAGS |
 | **Reviewer** | subagent `reviewer`, own worktree, **one at a time** | gates + line-by-line reading → MERGE / CHANGES / PARK; integrates glossary rows, rulings, flags, HANDOFF | translate, waive a gate, merge from a diff read alone |
@@ -151,9 +153,12 @@ frontmatter). Start the loop with `/translate` in the main session.
 
 0. **Preflight** (every start and resume): `git fetch origin main && git checkout main &&
    git reset --hard origin/main` (a fresh container may clone shallow with a stale ref); CHECK must
-   pass; `grep -n '«FILL»' PROJECT.md` prints nothing; read `HANDOFF.md`; list open PRs and
-   reconcile them with HANDOFF (unknown PR → add it; in-flight unit with no branch → mark lost,
-   re-queue); prune finished worktrees.
+   pass; `grep -n '«FILL»' PROJECT.md` prints nothing — if it does, the runner runs setup
+   (`.claude/skills/setup/SKILL.md`) and stops at its go-ahead question, while a coordinator writes
+   "setup incomplete — run /translate in an attended session" into NEXT ACTION and stops, because
+   setup needs the human present; read `HANDOFF.md`; list open PRs and reconcile them with HANDOFF
+   (unknown PR → add it; in-flight unit with no branch → mark lost, re-queue); prune finished
+   worktrees.
 1. **Survey** (first run, and whenever HANDOFF says the queue is stale): STATUS, MERGE, MEASURE,
    UNITCHECK on each store; read FLAGS → Open and Needs a human, and `pending/README.md`; run
    QUEUE. A unit is **blocked** when its ratio is below the measured floor in PROJECT.md §4 or a

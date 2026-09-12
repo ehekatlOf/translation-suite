@@ -6,10 +6,11 @@ at the close commit (`CLAUDE.md` Rule 3). A fresh container may clone shallow wi
 preflight is `git fetch origin main && git checkout main && git reset --hard origin/main`.
 
 ## NEXT ACTION — always current, always a literal instruction
-> **Run not started.** Before `/translate` is run, the human: fills `PROJECT.md` until
-> `grep -n '«FILL»' PROJECT.md` prints nothing; commits the dumps and tools; confirms CHECK passes on
-> an empty `tl/` and fails on a planted violation (`FLAGS.md` gets the entry); calibrates
-> `PROJECT.md` §4 from the first unit.
+> **Run not started.** Run `/translate`. Because `PROJECT.md` still has `«FILL»` fields, it runs
+> setup first (`.claude/skills/setup/SKILL.md`): surveys the repo and dumps, asks the human in one
+> batch only what it cannot infer, writes `PROJECT.md` and shows it before committing, conforms the
+> tools and proves CHECK fails on planted violations, translates and reviews one calibration unit
+> through the real roles, then asks for the go-ahead before wave 1. Nothing is filled by hand.
 >
 > <!-- From then on this block holds exactly one of:
 >   • the spawn to make — "open the wave N session with create_session; seed = SKILL.md §6a; units = Next up";
@@ -54,7 +55,8 @@ into rulings.md or FLAGS.md. Not a diary; the reasoning lives at the pointer. --
 |---|---|---|---|---|
 
 ## How to resume
-1. Preflight per `CLAUDE.md` §4 step 0. CHECK must pass. No `«FILL»` in `PROJECT.md`.
+1. Preflight per `CLAUDE.md` §4 step 0. CHECK must pass. A `«FILL»` in `PROJECT.md` means setup
+   has not finished; `/translate` runs it, attended, and asks before wave 1.
 2. Read NEXT ACTION and do exactly that. If it names a spawn, make it. If it names a stop condition,
    verify the condition still holds before believing it.
 3. Reconcile open PRs against In flight. Unknown PR → add it and queue it for review. In-flight unit

@@ -29,7 +29,9 @@ This file says only what is different about being a per-wave agent.
 
 ## The wave, in order
 0. **Preflight** — `git fetch origin main && git checkout main && git reset --hard origin/main`;
-   CHECK must pass; `grep -n '«FILL»' PROJECT.md` prints nothing; read HANDOFF; list open PRs
+   CHECK must pass; `grep -n '«FILL»' PROJECT.md` prints nothing (if it does, setup never
+   finished and you have no human present to finish it: write "setup incomplete — run /translate in
+   an attended session" into HANDOFF → NEXT ACTION, push, and stop); read HANDOFF; list open PRs
    (`gh`, or the GitHub MCP `list_pull_requests` with PROJECT.md §1's owner/repo) and reconcile
    them with In flight; `git worktree prune`, remove finished worktrees. CHECK red → stop
    dispatching, revert or fix, record it, then continue.

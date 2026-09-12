@@ -2,12 +2,14 @@
 
 Everything in this suite that is specific to one game, engine, tool set, repository or language pair
 lives here and nowhere else. `CLAUDE.md`, the `/translate` skill and the three agent definitions
-refer to these sections by number and never repeat the values. **Fill every `«FILL»` before the
-first run**: the runner's preflight refuses to start while `grep -n '«FILL»' PROJECT.md` prints
-anything.
+refer to these sections by number and never repeat the values. **Nobody fills this file by hand.**
+The setup skill (`.claude/skills/setup/SKILL.md`, run by `/translate` on first use) infers what the
+repo can tell it, asks the human the rest in one batch, shows the completed block, and commits it on
+confirmation. The runner's preflight refuses to start a wave while `grep -n '«FILL»' PROJECT.md`
+prints anything.
 
-Keep this file factual and short. Reasoning goes in `docs/`, `rulings.md` or `FLAGS.md`. The only
-agent that edits it after adoption is the reviewer, and only to add a CHECK blind spot to §7. A
+Keep this file factual and short. Reasoning goes in `docs/`, `rulings.md` or `FLAGS.md`. After
+setup, the only agent that edits it is the reviewer, and only to add a CHECK blind spot to §7. A
 filled example is `docs/PROJECT.example.md`.
 
 ## 1. Identity

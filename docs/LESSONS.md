@@ -62,3 +62,8 @@ can judge whether a rule still applies rather than inheriting it as folklore.
 21. **A speaker audit misattributed a borrowed channel.** The reviewer nearly filed a false register
     finding because a third party was speaking on another character's channel. → The reviewer checks
     for borrowed channels (the project's marker, PROJECT.md §5.3) before any register finding.
+22. **The adoption steps were addressed to a human.** The one part of the suite that could not run
+    itself was the first thing a stranger cloning it would hit, and "why doesn't it work" would have
+    been the fair response. → Setup is a skill the agent runs: it infers, asks once, shows before it
+    writes, calibrates through the real roles, and asks before the loop starts. The human confirms;
+    the human never fills.

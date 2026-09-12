@@ -3,7 +3,7 @@
 <!-- Read in full by every translator and every reviewer before every unit, so keep it under ~350
 lines: rules and worked examples only. Progress tables, schedules and engine history do not belong
 here — STATUS prints progress, HANDOFF.md holds the schedule, docs/ holds history. Every «FILL» is
-project-specific; fill it from PROJECT.md and from the first unit's measurements. A hand-kept table
+filled by the setup skill from PROJECT.md and the calibration unit, never by hand. A hand-kept table
 in this file will go stale; when one disagrees with STATUS, STATUS is right. -->
 
 ## ROLE
@@ -43,7 +43,7 @@ the budget is far tighter than the free space suggests.**
 
 The tiers, and what each demands of your first draft, are `PROJECT.md` §4. Measured on this project:
 a natural literal draft runs about **«FILL»×** the source count; a disciplined one (contractions, no
-filler, merged short lines) about **«FILL»×**. <!-- fill from the first unit, then never guess -->
+filler, merged short lines) about **«FILL»×**. <!-- setup fills these from the calibration unit; never guess -->
 
 **Above the top tier the byte budget stops mattering and the box geometry takes over.** Do not relax
 at a high ratio: draft straight to the geometry, count columns per segment as you write, and spend
@@ -193,7 +193,8 @@ reasoning behind a term lives in **`rulings.md`**, grepped on demand. Rules:
 
 ## 5. WORKED EXAMPLES
 
-<!-- Add four to six from the first units, each demonstrating one rule, in the form below. Good
+<!-- Setup adds four to six from the calibration unit, each demonstrating one rule, in the form
+below; the reviewer may add more as rulings accrue. Good
 picks: two source lines merged into one because the source was split for a narrower box; an insert
 moved for word order with the tag count unchanged; a page break preserved under compression; a tic
 rendered under the source's own punctuation; two near-identical lines kept distinct by adding a
